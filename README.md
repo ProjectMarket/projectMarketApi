@@ -1,3 +1,3 @@
 # projectMarketApi
 
-a [Sails](http://sailsjs.org) application
+a [Sails](http://sailsjs.org) api
