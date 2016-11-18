@@ -27,7 +27,7 @@
 module.exports = {
 	signin : function(req, res) {
     passport.authenticate('local', onPassportAuth.bind(this, req, res))(req, res);
-    },
+  },
 
   signup : function(req, res) {
     User

@@ -38,7 +38,7 @@ module.exports.sockets = {
   * via port 6379                                                            *
   *                                                                          *
   ***************************************************************************/
-  // adapter: 'memory',
+  adapter: 'memory',
 
   //
   // -OR-
@@ -65,7 +65,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // grant3rdPartyCookie: true,
+  grant3rdPartyCookie: true,
 
 
 
@@ -106,12 +106,12 @@ module.exports.sockets = {
   * app's security.                                                          *
   *                                                                          *
   ***************************************************************************/
-  // beforeConnect: function(handshake, cb) {
+  beforeConnect: function(handshake, cb) {
   //   // `true` allows the connection
-  //   return cb(null, true);
+    return cb(null, true);
   //
   //   // (`false` would reject the connection)
-  // },
+  },
 
 
   /***************************************************************************
@@ -137,5 +137,8 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
   // transports: ["polling", "websocket"]
+  transports: ["polling", "websocket"],
+
+  serveClient: true
 
 };
