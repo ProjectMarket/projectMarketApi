@@ -89,4 +89,13 @@ module.exports.connections = {
   *                                                                          *
   ***************************************************************************/
 
+  MariaDB: {
+    adapter: 'sails-mysql',
+    host: 'hrr5mwqn9zs54rg4.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+    port: 3306,
+    user: 'y92yqb15utnrrfzs',
+    password: 'w5lysbsg67ov1ite',
+    database: 'zo1rmgosrhsaue4f'
+  }
+
 };
