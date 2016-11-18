@@ -33,6 +33,14 @@ module.exports = {
       type: 'string',
       required: false
     },
+    societyAdmin: {
+      model: 'society',
+      required: false
+    },
+    societyMember: {
+      model: 'society',
+      required: false
+    },
     toJson: function() {
       var obj = this.toObject();
       delete obj.password;

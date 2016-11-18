@@ -37,7 +37,11 @@ module.exports.routes = {
   },
 
   'POST /signup': 'AuthController.signup',
-  'POST /signin': 'AuthController.signin'
+  'POST /signin': 'AuthController.signin',
+  'POST /society/create': 'SocietyController.createSociety',
+  'POST /society/member/add': 'SocietyController.addMember',
+  'GET /society/:societyId': 'SocietyController.getSociety',
+  'GET /society/:societyId/members': 'SocietyController.getMembers'
 
   /***************************************************************************
   *                                                                          *
