@@ -15,6 +15,10 @@ module.exports = {
     society: {
       model: 'society',
       required: false
+    },
+    projectsApplied: {
+      collection: 'project',
+      via: 'appliants'
     }
   }
 };
