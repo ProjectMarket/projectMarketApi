@@ -33,6 +33,20 @@ module.exports = {
     image: {
       type: 'string',
       required: false
+    },
+    category: {
+      model: 'category',
+      required: false
+    },
+    documents: {
+      collection: 'document',
+      via: 'project',
+      required: false
+    },
+    commentaries: {
+      collection: 'commentary',
+      via: 'project',
+      required: false
     }
   }
 };

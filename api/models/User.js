@@ -45,6 +45,20 @@ module.exports = {
       model: 'entity',
       required: false
     },
+    skills: {
+      collection: 'skill',
+      required: false
+    },
+    notifications: {
+      collection: 'notification',
+      via: 'receiver',
+      required: false
+    },
+    messages: {
+      collection: 'message',
+      via: 'receiver',
+      required: false
+    },
     toJson: function() {
       var obj = this.toObject();
       delete obj.password;

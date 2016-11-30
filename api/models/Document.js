@@ -1,5 +1,5 @@
 /**
- * Entity.js
+ * Document.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -8,22 +8,20 @@
 module.exports = {
 
   attributes: {
-    user: {
-      model: 'user',
-      required: false
+    title: {
+      type: 'string',
+      required: true
     },
-    society: {
-      model: 'society',
-      required: false
+    url: {
+      type: 'string',
+      required: true
     },
-    projectsApplied: {
-      collection: 'project',
-      via: 'appliants',
-      required: false
+    extension: {
+      type: 'string',
+      required: true
     },
-    avis: {
-      collection: 'commentary',
-      via: 'owner',
+    project: {
+      model: 'project',
       required: false
     }
   }
