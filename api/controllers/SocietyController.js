@@ -47,7 +47,13 @@ module.exports = {
 								entity: newEntity
 							}).exec(function(err, updatedSociety) {
 								if (err) { return res.serverError(err); }
-								return res.created(updatedSociety);
+								Log.create({
+									description: 'A new society has been created : ' + updatedSociety.legalname
+								}).exec(function(err, log){
+									if (err) { return res.serverError(err); }
+
+									return res.created(updatedSociety);
+								});
 							});
 						});
 					});
@@ -70,7 +76,13 @@ module.exports = {
 					user.societyMember = society.id;
 					user.save(function(err) {
 						if (err) { return res.serverError(err); }
-						return res.ok(society);
+						Log.create({
+							description: 'A new member has been added to the society : ' + society.legalname
+						}).exec(function(err, log){
+							if (err) { return res.serverError(err); }
+
+							return res.ok(society);
+						});
 					});
 				});
 			});
@@ -81,7 +93,13 @@ module.exports = {
 			if (err) { return res.serverError(err); }
 			if (!society) { return res.notFound('No society found for this id'); }
 
-			return res.ok(society);
+			Log.create({
+				description: 'A society has been retrieved by id : ' + society.legalname
+			}).exec(function(err, log){
+				if (err) { return res.serverError(err); }
+
+				return res.ok(society);
+			});
 		});
 	},
 	getMembers: function(req, res) {
@@ -89,7 +107,13 @@ module.exports = {
 			if (err) { return res.serverError(err); }
 			if (!society) { return res.notFound('No society found for this id'); }
 
-			return res.ok(society.members);
+			Log.create({
+				description: 'Members of the society has been retrieved by id : ' + society.legalname
+			}).exec(function(err, log){
+				if (err) { return res.serverError(err); }
+
+				return res.ok(society.members);
+			});
 		});
 	}
 };

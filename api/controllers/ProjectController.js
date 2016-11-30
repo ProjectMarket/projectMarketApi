@@ -21,7 +21,13 @@ module.exports = {
 				if (err) { return next(error, false, { code: 'E_NO_DATABASE_CONNECTION', message: 'connection à la base de données impossible' }); }
 				if (!newProject) { return next(null, false, { code: 'E_PROJECT_NOT_CREATED', message: 'user could not be created' }); }
 
-				return res.created(newProject);
+				Log.create({
+					description: 'A project has been created : ' + project.description
+				}).exec(function(err, log){
+					if (err) { return res.serverError(err); }
+
+					return res.created(newProject);
+				});
 			});
 		});
 	},
@@ -30,7 +36,13 @@ module.exports = {
 			if (err) { return res.serverError(err); }
 			if (!project) { return res.notFound('No project found for this id'); }
 
-			return res.ok(project);
+			Log.create({
+				description: 'A project has been requested : ' + project.description
+			}).exec(function(err, log){
+				if (err) { return res.serverError(err); }
+
+				return res.ok(project);
+			});
 		});
 	}
 };

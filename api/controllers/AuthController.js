@@ -45,7 +45,13 @@ module.exports = {
             entity: newEntity
           }).exec(function(err, updatedUser){
             if (err) { return res.serverError(err); }
-  				  return res.created(updatedUser);
+            Log.create({
+              description: 'A new user has been created : ' + user.email
+            }).exec(function(err, logCreated){
+              if (err) { return res.serverError(err); }
+
+    				  return res.created(updatedUser);
+            });
           });
         });
 			});

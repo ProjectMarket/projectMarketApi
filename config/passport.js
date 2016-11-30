@@ -62,6 +62,16 @@ function onLocalStrategyAuth(email, password, next) {
           message: 'email or password is wrong'
         });
       }
+      Log.create({
+        description: 'A user has connected : ' + user.email
+      }).exec(function(err, log){
+        if (err) {
+          return next(null, false, {
+            code: 'E_LOG_PROBLEM',
+            message: 'Could not create log entry'
+          });
+        }
+      });
       return next(null,user,{});
     });
 }
@@ -75,6 +85,16 @@ function onLocalStrategyAuth(email, password, next) {
 
 function onJwtStrategyAuth(payload, next) {
   var user = payload.user;
+  Log.create({
+    description: 'A user has connected : ' + user.email
+  }).exec(function(err, log){
+    if (err) {
+      return next(null, false, {
+        code: 'E_LOG_PROBLEM',
+        message: 'Could not create log entry'
+      });
+    }
+  });
   return next(null,user,{});
 }
 
@@ -88,4 +108,12 @@ module.exports.jwtSettings = {
   algo: ALGO,
   issuer: ISSUER,
   audience: AUDIENCE
+}
+
+module.exports.orm = {
+  _hookTimeout: 60000
+}
+
+module.exports.pubsub = {
+  _hookTimeout: 60000
 }
