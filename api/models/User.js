@@ -41,15 +41,15 @@ module.exports = {
       model: 'society',
       required: false
     },
+    entity: {
+      model: 'entity',
+      required: false
+    },
     toJson: function() {
       var obj = this.toObject();
       delete obj.password;
       return obj;
     }
-  },
-  beforeUpdate: function(value, next) {
-    SecurityService.hashPassword(value);
-    return next();
   },
   beforeCreate: function(value, next) {
     SecurityService.hashPassword(value);

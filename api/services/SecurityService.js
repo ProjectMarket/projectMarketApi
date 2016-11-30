@@ -7,10 +7,6 @@ var bcrypt = require('bcrypt-nodejs');
 var jwt = require('jsonwebtoken');
 
 module.exports = {
-  secret: sails.config.jwtSettings.secret,
-  issuer: sails.config.jwtSettings.issuer,
-  audience: sails.config.jwtSettings.audience,
-
   hashPassword : function(user) {
     if (user.password) {
       user.password = bcrypt.hashSync(user.password);

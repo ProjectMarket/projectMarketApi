@@ -36,7 +36,18 @@ module.exports = {
 					return res.serverError(err);
 				}
 
-				return res.ok(user);
-			})
+        Entity.create({
+          user: user
+        }).exec(function(err, newEntity){
+          if (err) { return res.serverError(err); }
+
+          User.update({id: user.id}, {
+            entity: newEntity
+          }).exec(function(err, updatedUser){
+            if (err) { return res.serverError(err); }
+  				  return res.ok(updatedUser);
+          });
+        });
+			});
   }
 };
