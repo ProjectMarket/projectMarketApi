@@ -70,7 +70,7 @@ module.exports = {
 					user.societyMember = society.id;
 					user.save(function(err) {
 						if (err) { return res.serverError(err); }
-						return res.ok();
+						return res.ok(society);
 					});
 				});
 			});
