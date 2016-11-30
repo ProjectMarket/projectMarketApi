@@ -45,7 +45,7 @@ module.exports = {
             entity: newEntity
           }).exec(function(err, updatedUser){
             if (err) { return res.serverError(err); }
-  				  return res.ok(updatedUser);
+  				  return res.created(updatedUser);
           });
         });
 			});
