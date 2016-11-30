@@ -19,7 +19,7 @@ module.exports = {
       if (!user) {
         return next(null, false, {
           code: 'E_USER_NOT_FOUND',
-          message: 'email or password is wrong'
+          message: 'user not found'
         });
       }
 			Society.create({
@@ -36,9 +36,22 @@ module.exports = {
 					if (err) {
 						return res.serverError(err);
 					}
+					user.save(function(err) {
+						if (err) { return res.serverError(err); }
+						Entity.create({
+							society: newSociety
+						}).exec(function(err, newEntity) {
+							if (err) { return res.serverError(err); }
 
-					return res.ok(newSociety);
-				})
+							Society.update({id: newSociety.id},{
+								entity: newEntity
+							}).exec(function(err, updatedSociety) {
+								if (err) { return res.serverError(err); }
+								return res.ok(updatedSociety);
+							});
+						});
+					});
+				});
 			});
 		});
 	},

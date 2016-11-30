@@ -1,5 +1,5 @@
 /**
- * Society.js
+ * Entity.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -8,25 +8,12 @@
 module.exports = {
 
   attributes: {
-    legalname: {
-      type: 'string',
-      required: true
-    },
-    address: {
-      type: 'string',
-      required: false
-    },
-    admin: {
+    user: {
       model: 'user',
-      required: true
-    },
-    members: {
-      collection: 'user',
-      via: 'societyMember',
       required: false
     },
-    entity: {
-      model: 'entity',
+    society: {
+      model: 'society',
       required: false
     }
   }
