@@ -10,20 +10,20 @@ module.exports = {
 		User.findOne({
 			id: req.param('id')
 		}).exec(function (err, user) {
-			if (err) { return next(error, false, { code: 'E_NO_DATABASE_CONNECTION', message: 'connection à la base de données impossible' }); }
-      if (!user) { return next(null, false, { code: 'E_USER_NOT_FOUND', message: 'user not found' }); }
+			if (err) { return res.serverError('connection 1 à la base de données impossible'); }
+      if (!user) { return res.serverError('user not found'); }
 
 			Project.create({
 				moa: user,
-				titre: req.param('title'),
+				title: req.param('title'),
 				budget: req.param('budget'),
 				description: req.param('description')
 			}).exec(function (err, newProject) {
-				if (err) { return next(error, false, { code: 'E_NO_DATABASE_CONNECTION', message: 'connection à la base de données impossible' }); }
-				if (!newProject) { return next(null, false, { code: 'E_PROJECT_NOT_CREATED', message: 'user could not be created' }); }
+				if (err) { return res.serverError('connection 2 à la base de données impossible'); }
+				if (!newProject) { return res.serverError('user could not be created'); }
 
 				Log.create({
-					description: 'A project has been created : ' + project.description
+					description: 'A project has been created : ' + newProject.description
 				}).exec(function(err, log){
 					if (err) { return res.serverError(err); }
 

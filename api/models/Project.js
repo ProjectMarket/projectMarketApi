@@ -16,10 +16,6 @@ module.exports = {
       model: 'entity',
       required: false
     },
-    title: {
-      type: 'string',
-      required: true
-    },
     appliants: {
       collection: 'entity',
       via: 'projectsApplied',
@@ -31,6 +27,10 @@ module.exports = {
       required: true
     },
     description: {
+      type: 'string',
+      required: true
+    },
+    title: {
       type: 'string',
       required: true
     },
