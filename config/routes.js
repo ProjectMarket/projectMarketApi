@@ -43,7 +43,14 @@ module.exports.routes = {
   'POST /signin': 'AuthController.signin',
   'POST /society/create': 'SocietyController.createSociety',
   'POST /society/member/add': 'SocietyController.addMember',
-  'POST /project/create': 'ProjectController.createProject',
+  'POST /project/create': {
+    cors: {
+       origin: '*',
+       headers: 'Content-Type, Authorization'
+    },
+    controller: 'ProjectController',
+    action: 'createProject'
+  },
   'GET /society/:societyId': 'SocietyController.getSociety',
   'GET /society/:societyId/members': 'SocietyController.getMembers',
   'GET /user/me': 'UserController.me',
