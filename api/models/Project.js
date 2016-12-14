@@ -16,6 +16,10 @@ module.exports = {
       model: 'entity',
       required: false
     },
+    title: {
+      type: 'string',
+      required: true
+    },
     appliants: {
       collection: 'entity',
       via: 'projectsApplied',

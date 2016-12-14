@@ -15,6 +15,7 @@ module.exports = {
 
 			Project.create({
 				moa: user,
+				titre: req.param('title'),
 				budget: req.param('budget'),
 				description: req.param('description')
 			}).exec(function (err, newProject) {
