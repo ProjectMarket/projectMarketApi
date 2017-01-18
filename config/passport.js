@@ -72,7 +72,30 @@ function onLocalStrategyAuth(email, password, next) {
           });
         }
       });
-      return next(null,entity,{});
+
+      var obj = entity.toJSON();
+
+      if (obj.type == 'user') {
+        User.findOne({
+          id: obj.elementId
+        }).exec(function(err, user) {
+          if (!err && user) {
+            obj.associatedElement = user.toJSON();
+            delete obj.elementId;
+            return next(null,obj,{});
+          }
+        });
+      } else if (obj.type == 'society') {
+        Society.findOne({
+          id: obj.elementId
+        }).exec(function(err, society) {
+          if (!err && society) {
+            obj.associatedElement = society.toJSON();
+            delete obj.elementId;
+            return next(null,obj,{});
+          }
+        });
+      }
     });
 }
 

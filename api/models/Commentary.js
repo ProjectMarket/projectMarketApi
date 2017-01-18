@@ -18,7 +18,7 @@ module.exports = {
     },
     owner: {
       model: 'entity',
-      required: true
+      required: false
     },
     project: {
       model: 'project',

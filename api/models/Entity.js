@@ -30,11 +30,11 @@ module.exports = {
       via: 'appliants',
       required: false
     },
-    /*avis: {
+    avis: {
       collection: 'commentary',
       via: 'owner',
       required: false
-    },*/
+    },
     toJSON: function() {
       var obj = this.toObject();
       delete obj.password;
