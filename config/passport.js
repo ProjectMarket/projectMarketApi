@@ -41,29 +41,29 @@ var JWT_STRATEGY_CONFIG = {
  */
 
 function onLocalStrategyAuth(email, password, next) {
-    User.findOne({
+    Entity.findOne({
         email: email
-    }).exec(function(error, user) {
+    }).exec(function(error, entity) {
       if (error) {
         return next(error, false, {
           code: 'E_NO_DATABASE_CONNECTION',
           message: 'connection à la base de données impossible'
         });
       }
-      if (!user) {
+      if (!entity) {
         return next(null, false, {
           code: 'E_USER_NOT_FOUND',
           message: 'email or password is wrong'
         });
       }
-      if (!SecurityService.comparePassword(password, user)) {
+      if (!SecurityService.comparePassword(password, entity)) {
         return next(null, false, {
           code: 'E_USER_PASSWORD_MISMATCH',
           message: 'email or password is wrong'
         });
       }
       Log.create({
-        description: 'A user has connected : ' + user.email
+        description: 'An entity has connected : ' + entity.email
       }).exec(function(err, log){
         if (err) {
           return next(null, false, {
@@ -72,7 +72,7 @@ function onLocalStrategyAuth(email, password, next) {
           });
         }
       });
-      return next(null,user,{});
+      return next(null,entity,{});
     });
 }
 
@@ -84,9 +84,9 @@ function onLocalStrategyAuth(email, password, next) {
  */
 
 function onJwtStrategyAuth(payload, next) {
-  var user = payload.user;
+  var entity = payload.entity;
   Log.create({
-    description: 'A user has connected : ' + user.email
+    description: 'An entity has connected : ' + entity.email
   }).exec(function(err, log){
     if (err) {
       return next(null, false, {
@@ -95,7 +95,7 @@ function onJwtStrategyAuth(payload, next) {
       });
     }
   });
-  return next(null,user,{});
+  return next(null,entity,{});
 }
 
 passport.use(new LocalStrategy(LOCAL_STRATEGY_CONFIG, onLocalStrategyAuth));

@@ -39,7 +39,30 @@ module.exports.routes = {
     view: 'layout'
   },
 
-  'POST /signup': 'AuthController.signup',
+  'POST /signup': {
+    controller: 'AuthController',
+    action: 'signup',
+    swagger: {
+      methods: ['POST'],
+      summary: ' Function for signing up',
+      produces: [
+        'application/json'
+      ],
+      tags: [
+        'Entity'
+      ],
+      responses: {
+        '201': {
+          description: ' Everything went well, the user or society has been created, along with the entity associated to it ',
+          schema: 'Entity'
+        },
+        '500': {
+          description: ' Something went wrong and at least something could not be created '
+        }
+      },
+      parameters: []
+    }
+  },
   'POST /signin': 'AuthController.signin',
   'POST /society/create': 'SocietyController.createSociety',
   'POST /society/member/add': 'SocietyController.addMember',

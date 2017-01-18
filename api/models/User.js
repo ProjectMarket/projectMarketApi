@@ -16,15 +16,6 @@ module.exports = {
       type: 'string',
       required: true
     },
-    email: {
-      type: 'email',
-      unique: true,
-      required: true
-    },
-    password: {
-      type: 'string',
-      required: true
-    },
     avatar: {
       type: 'string',
       required: false
@@ -33,13 +24,10 @@ module.exports = {
       type: 'string',
       required: false
     },
-    societyAdmin: {
-      model: 'society',
-      required: false
-    },
-    societyMember: {
-      model: 'society',
-      required: false
+    administrator: {
+      type: 'boolean',
+      required: false,
+      defaultsTo: false
     },
     entity: {
       model: 'entity',
@@ -58,15 +46,10 @@ module.exports = {
       collection: 'message',
       via: 'receiver',
       required: false
-    },
-    toJson: function() {
-      var obj = this.toObject();
-      delete obj.password;
-      return obj;
     }
   },
   beforeCreate: function(value, next) {
-    SecurityService.hashPassword(value);
+    value.admin = false;
     return next();
   }
 };

@@ -16,14 +16,10 @@ module.exports = {
       type: 'string',
       required: false
     },
-    admin: {
-      model: 'user',
-      required: true
-    },
-    members: {
-      collection: 'user',
-      via: 'societyMember',
-      required: false
+    siretNumber: {
+      type: 'string',
+      required: true,
+      size: 14
     },
     entity: {
       model: 'entity',
