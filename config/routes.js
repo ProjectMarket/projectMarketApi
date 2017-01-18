@@ -43,9 +43,9 @@ module.exports.routes = {
   'POST /project/create': 'ProjectController.createProject',
   'GET /society/:societyId': 'SocietyController.getSociety',
   'GET /society/:societyId/members': 'SocietyController.getMembers',
-  'GET /user/me': 'UserController.me',
   'GET /user/:userId': 'UserController.getUser',
   'GET /project/:projectId': 'ProjectController.getProject',
+  'GET /entity/me': 'EntityController.me',
   'GET /entity/:entityId': 'EntityController.getEntity'
 
   /***************************************************************************

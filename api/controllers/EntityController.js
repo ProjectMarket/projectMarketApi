@@ -6,6 +6,9 @@
  */
 
 module.exports = {
+	me: function (req, res) {
+		res.send(req.entity);
+	},
 	getEntity: function(req, res) {
 		Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity) {
 			if (err) { return res.serverError(err); }

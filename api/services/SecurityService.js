@@ -18,7 +18,7 @@ module.exports = {
   createToken : function(entity) {
     return jwt.sign(
       {
-        entity: entity.toJSON()
+        entity: entity
       },
       sails.config.jwtSettings.secret,
       {
