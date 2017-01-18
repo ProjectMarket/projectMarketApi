@@ -27,7 +27,55 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-  '*': ['isAuthenticated'],
+  '*': true,
+
+  CategoryController: {
+    '*': ['isAuthenticated']
+  },
+
+  CommentaryController: {
+    '*': ['isAuthenticated']
+  },
+
+  DocumentController: {
+    '*': ['isAuthenticated']
+  },
+
+  EntityController: {
+    '*': ['isAuthenticated']
+  },
+
+  LogController: {
+    '*': ['isAuthenticated']
+  },
+
+  MessageController: {
+    '*': ['isAuthenticated']
+  },
+
+  NotificationController: {
+    '*': ['isAuthenticated']
+  },
+
+  ProjectController: {
+    '*': ['isAuthenticated']
+  },
+
+  SkillController: {
+    '*': ['isAuthenticated']
+  },
+
+  SocietyController: {
+    '*': ['isAuthenticated']
+  },
+
+  SwaggerController: {
+    '*': true
+  },
+
+  UserController: {
+    '*': ['isAuthenticated']
+  },
 
   AuthController: {
     '*': true
