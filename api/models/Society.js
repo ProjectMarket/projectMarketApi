@@ -16,7 +16,7 @@ module.exports = {
       type: 'string',
       required: false
     },
-    siretNumber: {
+    siretnumber: {
       type: 'string',
       required: true,
       size: 14

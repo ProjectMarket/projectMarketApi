@@ -41,9 +41,10 @@ module.exports = {
 
         if (user) {
           Entity.create({
+            type: req.param('type'),
             email: req.param('email'),
             password: req.param('password'),
-            user: user
+            elementId: user.id
           }).exec(function(err, entity) {
             if (err) { return res.serverError(err); }
 
@@ -57,7 +58,11 @@ module.exports = {
               }).exec(function(err, log) {
                 if (err) { return res.serverError(err); }
 
-                return res.created(entity);
+                var obj = entity.toJSON();
+                obj.associatedElement = updatedUser;
+                delete obj.elementId;
+
+                return res.created(obj);
               });
             });
           });
@@ -69,15 +74,16 @@ module.exports = {
       Society.create({
         legalname: req.param('legalname'),
         address: req.param('address'),
-        siretNumber: req.param('siretNumber')
+        siretnumber: req.param('siretnumber')
       }).exec(function(err, society) {
         if (err) { return res.serverError(err); }
 
         if (society) {
           Entity.create({
+            type: req.param('type'),
             email: req.param('email'),
             password: req.param('password'),
-            society: society
+            elementId: society.id
           }).exec(function(err, entity) {
             if (err) { return res.serverError(err); }
 
@@ -91,7 +97,11 @@ module.exports = {
               }).exec(function(err, log) {
                 if (err) { return res.serverError(err); }
 
-                return res.created(entity);
+                var obj = entity.toJSON();
+                obj.associatedElement = updatedSociety;
+                delete obj.elementId;
+
+                return res.created(obj);
               });
             });
           });

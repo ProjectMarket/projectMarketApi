@@ -8,6 +8,10 @@
 module.exports = {
 
   attributes: {
+    type: {
+      type: 'string',
+      required: true
+    },
     email: {
       type: 'email',
       unique: true,
@@ -17,12 +21,8 @@ module.exports = {
       type: 'string',
       required: true
     },
-    user: {
-      model: 'user',
-      required: false
-    },
-    society: {
-      model: 'society',
+    elementId: {
+      type: 'integer',
       required: false
     },
     projectsApplied: {
@@ -30,12 +30,12 @@ module.exports = {
       via: 'appliants',
       required: false
     },
-    avis: {
+    /*avis: {
       collection: 'commentary',
       via: 'owner',
       required: false
-    },
-    toJson: function() {
+    },*/
+    toJSON: function() {
       var obj = this.toObject();
       delete obj.password;
       return obj;

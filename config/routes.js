@@ -36,30 +36,7 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'POST /signup': {
-    controller: 'AuthController',
-    action: 'signup',
-    swagger: {
-      methods: ['POST'],
-      summary: ' Function for signing up',
-      produces: [
-        'application/json'
-      ],
-      tags: [
-        'Entity'
-      ],
-      responses: {
-        '201': {
-          description: ' Everything went well, the user or society has been created, along with the entity associated to it ',
-          schema: 'Entity'
-        },
-        '500': {
-          description: ' Something went wrong and at least something could not be created '
-        }
-      },
-      parameters: []
-    }
-  },
+  'POST /signup': 'AuthController.signup',
   'POST /signin': 'AuthController.signin',
   'POST /society/create': 'SocietyController.createSociety',
   'POST /society/member/add': 'SocietyController.addMember',
@@ -68,7 +45,8 @@ module.exports.routes = {
   'GET /society/:societyId/members': 'SocietyController.getMembers',
   'GET /user/me': 'UserController.me',
   'GET /user/:userId': 'UserController.getUser',
-  'GET /project/:projectId': 'ProjectController.getProject'
+  'GET /project/:projectId': 'ProjectController.getProject',
+  'GET /entity/:entityId': 'EntityController.getEntity'
 
   /***************************************************************************
   *                                                                          *
