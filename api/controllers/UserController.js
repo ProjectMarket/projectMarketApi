@@ -6,9 +6,6 @@
  */
 
 module.exports = {
-	me: function (req, res) {
-		return res.send(req.user);
-	},
 	getUser: function (req, res) {
 		User.findOne({ id: req.param('userId') }).exec(function(err, user){
 			if (err) { return res.serverError(err); }
@@ -21,6 +18,14 @@ module.exports = {
 
 				return res.ok(user);
 			});
+		});
+	},
+	getUsers: function (req, res) {
+		User.find().exec(function(err, users) {
+			if (err) { return res.serverError(err); }
+			if (!users) { return res.serverError('No users'); }
+
+			return res.ok(users);
 		});
 	}
 };

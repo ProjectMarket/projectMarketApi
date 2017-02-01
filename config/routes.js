@@ -44,6 +44,7 @@ module.exports.routes = {
   'GET /society/:societyId': 'SocietyController.getSociety',
   'GET /society/:societyId/members': 'SocietyController.getMembers',
   'GET /user/:userId': 'UserController.getUser',
+  'GET /users': 'UserController.getUsers',
   'GET /project/:projectId': 'ProjectController.getProject',
   'GET /entity/me': 'EntityController.me',
   'GET /entity/:entityId': 'EntityController.getEntity'

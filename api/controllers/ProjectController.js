@@ -7,7 +7,7 @@
 
 module.exports = {
 	createProject: function (req, res) {
-		User.findOne({
+		Entity.findOne({
 			id: req.param('id')
 		}).exec(function (err, user) {
 			if (err) { return res.serverError('connection 1 à la base de données impossible'); }
