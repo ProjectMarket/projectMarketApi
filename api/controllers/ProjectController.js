@@ -45,6 +45,30 @@ module.exports = {
 			if (err) { return res.serverError(err); }
 			if (!project) { return res.notFound('No project found for this id'); }
 
+			var resultAppl = [];
+
+			for (var appliant in appliants) {
+				Entity.findOne({ id: appliant.id }).exec(function(err, entity) {
+					if (err) { return res.serverError(err); }
+					if (!entity) { return res.notFound('No entity found for this id'); }
+
+					var obj = entity.toJSON();
+
+					Society.findOne({
+						id: obj.elementId
+					}).exec(function(err, society) {
+						if (!err && society) {
+							obj.associatedElement = society.toJSON();
+							delete obj.elementId;
+
+							resultAppl.push(obj);
+						}
+					});
+				});
+			}
+
+			project.appliants = resultAppl;
+
 			Entity.findOne({ id: project.moa }).exec(function(err, entity) {
 				if (err) { return res.serverError(err); }
 				if (!entity) { return res.notFound('No entity found for this id'); }

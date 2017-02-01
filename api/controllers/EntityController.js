@@ -50,12 +50,9 @@ module.exports = {
 			if (err) { return res.serverError(err); }
 			if (!entity) { return res.serverError('Entity not found'); }
 
-			if ((req.param('email') != null && req.param('email') != undefined && req.param('email') != "") || (req.param('password') != null && req.param('password') != undefined && req.param('password') != "")) {
+			if (req.param('email') != null && req.param('email') != undefined && req.param('email') != "") {
 				if (req.param('email') != null && req.param('email') != undefined && req.param('email') != "") {
 					entity.email = req.param('email');
-				}
-				if (req.param('password') != null && req.param('password') != undefined && req.param('password') != "") {
-					entity.password = SecurityService.hashPassword(req.param('password'));
 				}
 
 				entity.save(function(err) {
@@ -132,5 +129,9 @@ module.exports = {
 			var obj = entity.toJSON();
 			return res.ok(obj);
 		});
+	},
+	updatePassword: function(req, res) {
+		oldpassword
+		newpassword
 	}
 };

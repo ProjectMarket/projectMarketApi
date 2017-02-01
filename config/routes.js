@@ -43,6 +43,7 @@ module.exports.routes = {
   'POST /project/create': 'ProjectController.createProject',
   'POST /applyToProject/:projectId': 'ProjectController.applyToProject',
   'PUT /updateProfile/:entityId': 'EntityController.updateProfile',
+  'PUT /updatePassword/:entityId': 'EntityController.updatePassword',
   'GET /society/:societyId': 'SocietyController.getSociety',
   'GET /society/:societyId/members': 'SocietyController.getMembers',
   'GET /user/:userId': 'UserController.getUser',
