@@ -44,5 +44,75 @@ module.exports = {
 				}
 			});
 		});
+	},
+	updateProfile: function(req, res) {
+		Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity) {
+			if (err) { return res.serverError(err); }
+			if (!entity) { return res.serverError('Entity not found'); }
+
+			if ((req.param('email') != null && req.param('email') != undefined) || (req.param('password') != null && req.param('password') != undefined)) {
+				if (req.param('email') != null && req.param('email') != undefined) {
+					entity.email = req.param('email');
+				}
+				if (req.param('password') != null && req.param('password') != undefined) {
+					entity.password = SecurityService.hashPassword(req.param('password'));
+				}
+
+				entity.save(function(err) {
+					if (err) { return res.serverError(err); }
+				});
+			}
+
+			if (entity.type == 'user') {
+				User.findOne({
+					id: entity.elementId
+				}).exec(function(err, user) {
+					if ((req.param('firstname') != null && req.param('firstname') != undefined) || (req.param('lastname') != null && req.param('lastname') != undefined) || (req.param('avatar') != null && req.param('avatar') != undefined) || (req.param('address') != null && req.param('address') != undefined)) {
+						if (req.param('firstname') != null && req.param('firstname') != undefined) {
+							user.firstname = req.param('firstname');
+						}
+						if (req.param('lastname') != null && req.param('lastname') != undefined) {
+							entity.lastname = req.param('lastname');
+						}
+						if (req.param('avatar') != null && req.param('avatar') != undefined) {
+							entity.avatar = req.param('avatar');
+						}
+						if (req.param('address') != null && req.param('address') != undefined) {
+							entity.address = req.param('address');
+						}
+
+						user.save(function(err) {
+							if (err) { return res.serverError(err); }
+						});
+					}
+				});
+			} else if (entity.type == 'society') {
+				Society.findOne({
+					id: entity.elementId
+				}).exec(function(err, society) {
+					if ((req.param('legalname') != null && req.param('legalname') != undefined) || (req.param('siretnumber') != null && req.param('siretnumber') != undefined) || (req.param('avatar') != null && req.param('avatar') != undefined) || (req.param('address') != null && req.param('address') != undefined)) {
+						if (req.param('legalname') != null && req.param('legalname') != undefined) {
+							society.legalname = req.param('legalname');
+						}
+						if (req.param('siretnumber') != null && req.param('siretnumber') != undefined) {
+							society.siretnumber = req.param('siretnumber');
+						}
+						if (req.param('avatar') != null && req.param('avatar') != undefined) {
+							society.avatar = req.param('avatar');
+						}
+						if (req.param('address') != null && req.param('address') != undefined) {
+							society.address = req.param('address');
+						}
+
+						society.save(function(err) {
+							if (err) { return res.serverError(err); }
+						});
+					}
+				});
+			}
+
+			var obj = entity.toJSON();
+			return res.ok(obj);
+		});
 	}
 };
