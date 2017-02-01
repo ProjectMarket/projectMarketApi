@@ -45,80 +45,93 @@ module.exports = {
 			if (err) { return res.serverError(err); }
 			if (!project) { return res.notFound('No project found for this id'); }
 
-			var resultAppl = [];
+			var appls = [];
 
-			for (var i = 0; i <= project.appliants.length; i++) {
-				var appliant = project.appliants[i];
-				Entity.findOne({ id: appliant.id }).exec(function(err, entity) {
-					if (err) { return res.serverError(err); }
-					if (!entity) { return res.notFound('No entity found for this id'); }
+			async.each(project.appliants, function(appliant, cb) {
 
-					var obj = entity.toJSON();
+				Entity.findOne({id: appliant.elementId}).exec(function(err, appliantEntity) {
+					if (err) { return cb(err); }
 
-					Society.findOne({
-						id: obj.elementId
-					}).exec(function(err, society) {
-						if (!err && society) {
-							obj.associatedElement = society.toJSON();
-							delete obj.elementId;
+					var object = appliantEntity.toJSON();
 
-							resultAppl[i] = obj;
-						}
-					});
-				});
-			}
-
-			//project.appliants = resultAppl;
-
-			Entity.findOne({ id: project.moa }).exec(function(err, entity) {
-				if (err) { return res.serverError(err); }
-				if (!entity) { return res.notFound('No entity found for this id'); }
-
-					var obj = entity.toJSON();
-
-					if (obj.type == 'user') {
+					if (object.type == 'user') {
 						User.findOne({
-							id: obj.elementId
+							id: object.elementId
 						}).exec(function(err, user) {
 							if (!err && user) {
-								obj.associatedElement = user.toJSON();
-								delete obj.elementId;
-
-								Log.create({
-									description: 'A project has been requested : ' + project.description
-								}).exec(function(err, log){
-									if (err) { return res.serverError(err); }
-
-									var elt = project.toJSON();
-
-									elt.moa = obj;
-
-									return res.ok(elt);
-								});
+								object.associatedElement = user.toJSON();
+								delete object.elementId;
+								appls.push(object);
+								cb();
 							}
 						});
-					} else if (obj.type == 'society') {
+					} else if (object.type == 'society') {
 						Society.findOne({
-							id: obj.elementId
+							id: object.elementId
 						}).exec(function(err, society) {
 							if (!err && society) {
-								obj.associatedElement = society.toJSON();
-								delete obj.elementId;
-
-								Log.create({
-									description: 'A project has been requested : ' + project.description
-								}).exec(function(err, log){
-									if (err) { return res.serverError(err); }
-
-									var elt = project.toJSON();
-
-									elt.moa = obj;
-
-									return res.ok(elt);
-								});
+								object.associatedElement = society.toJSON();
+								delete object.elementId;
+								appls.push(object);
+								cb();
 							}
 						});
 					}
+				});
+
+			}, function(err) {
+				if (err) { return res.serverError(err); }
+
+				var elt = project.toJSON();
+
+				elt.appliants = appls;
+
+				Entity.findOne({ id: project.moa }).exec(function(err, entity) {
+					if (err) { return res.serverError(err); }
+					if (!entity) { return res.notFound('No entity found for this id'); }
+
+						var obj = entity.toJSON();
+
+						if (obj.type == 'user') {
+							User.findOne({
+								id: obj.elementId
+							}).exec(function(err, user) {
+								if (!err && user) {
+									obj.associatedElement = user.toJSON();
+									delete obj.elementId;
+
+									Log.create({
+										description: 'A project has been requested : ' + project.description
+									}).exec(function(err, log){
+										if (err) { return res.serverError(err); }
+
+										elt.moa = obj;
+
+										return res.ok(elt);
+									});
+								}
+							});
+						} else if (obj.type == 'society') {
+							Society.findOne({
+								id: obj.elementId
+							}).exec(function(err, society) {
+								if (!err && society) {
+									obj.associatedElement = society.toJSON();
+									delete obj.elementId;
+
+									Log.create({
+										description: 'A project has been requested : ' + project.description
+									}).exec(function(err, log){
+										if (err) { return res.serverError(err); }
+
+										elt.moa = obj;
+
+										return res.ok(elt);
+									});
+								}
+							});
+						}
+				});
 			});
 		});
 	},

@@ -35,6 +35,25 @@ module.exports = {
       via: 'owner',
       required: false
     },
+    getElement: function(elementId, type, cb) {
+      if (type == 'user') {
+        User.findOne({id: elementId}).exec(function(err, user) {
+          if (!err && user) {
+            cb(user);
+          } else {
+            cb({});
+          }
+        });
+      } else if (type == 'society') {
+        Society.findOne({id: elementId}).exec(function(err, society) {
+          if (!err && society) {
+            cb(society);
+          } else {
+            cb({});
+          }
+        });
+      }
+    },
     toJSON: function() {
       var obj = this.toObject();
       delete obj.password;
