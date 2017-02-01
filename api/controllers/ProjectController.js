@@ -106,6 +106,8 @@ module.exports = {
 				if (err) { return res.serverError(err); }
 				if (!entity) { return res.serverError('Entity could not be found'); }
 
+				if (entity.type != 'society') { return res.serverError('Only a society can apply to aproject'); }
+
 				projet.appliants.add(entity.id);
 				projet.save(function(err) {
 					if (err) { return res.serverError(err); }

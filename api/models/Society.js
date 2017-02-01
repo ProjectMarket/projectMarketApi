@@ -16,6 +16,18 @@ module.exports = {
       type: 'string',
       required: false
     },
+    postalcode: {
+      type: 'string',
+      required: false
+    },
+    city: {
+      type: 'string',
+      required: false
+    },
+    country: {
+      type: 'string',
+      required: false
+    },
     siretnumber: {
       type: 'string',
       required: true,

@@ -24,6 +24,18 @@ module.exports = {
       type: 'string',
       required: false
     },
+    postalcode: {
+      type: 'string',
+      required: false
+    },
+    city: {
+      type: 'string',
+      required: false
+    },
+    country: {
+      type: 'string',
+      required: false
+    },
     administrator: {
       type: 'boolean',
       required: false,
