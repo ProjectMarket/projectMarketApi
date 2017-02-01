@@ -47,7 +47,8 @@ module.exports = {
 
 			var resultAppl = [];
 
-			for (var appliant in appliants) {
+			for (var i = 0; i <= project.appliants.length; i++) {
+				var appliant = project.appliants[i];
 				Entity.findOne({ id: appliant.id }).exec(function(err, entity) {
 					if (err) { return res.serverError(err); }
 					if (!entity) { return res.notFound('No entity found for this id'); }
@@ -61,13 +62,13 @@ module.exports = {
 							obj.associatedElement = society.toJSON();
 							delete obj.elementId;
 
-							resultAppl.push(obj);
+							resultAppl[i] = obj;
 						}
 					});
 				});
 			}
 
-			project.appliants = resultAppl;
+			//project.appliants = resultAppl;
 
 			Entity.findOne({ id: project.moa }).exec(function(err, entity) {
 				if (err) { return res.serverError(err); }
