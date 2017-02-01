@@ -13,21 +13,29 @@ module.exports = {
 			if (err) { return res.serverError('connection 1 à la base de données impossible'); }
       if (!user) { return res.serverError('user not found'); }
 
-			Project.create({
-				moa: user,
-				title: req.param('title'),
-				budget: req.param('budget'),
-				description: req.param('description')
-			}).exec(function (err, newProject) {
-				if (err) { return res.serverError('connection 2 à la base de données impossible'); }
-				if (!newProject) { return res.serverError('user could not be created'); }
+			Category.findOne({
+				id: req.param('categoryId')
+			}).exec(function (err, cat) {
+				if (err) { return res.serverError('connection pour les catégories impossible'); }
+				if (!cat) { return res.serverError('category could not be found'); }
 
-				Log.create({
-					description: 'A project has been created : ' + newProject.description
-				}).exec(function(err, log){
-					if (err) { return res.serverError(err); }
+				Project.create({
+					moa: user,
+					title: req.param('title'),
+					budget: req.param('budget'),
+					description: req.param('description'),
+					category: cat
+				}).exec(function (err, newProject) {
+					if (err) { return res.serverError('connection 2 à la base de données impossible'); }
+					if (!newProject) { return res.serverError('user could not be created'); }
 
-					return res.created(newProject);
+					Log.create({
+						description: 'A project has been created : ' + newProject.description
+					}).exec(function(err, log){
+						if (err) { return res.serverError(err); }
+
+						return res.created(newProject);
+					});
 				});
 			});
 		});
