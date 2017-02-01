@@ -131,7 +131,23 @@ module.exports = {
 		});
 	},
 	updatePassword: function(req, res) {
-		oldpassword
-		newpassword
+		Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity) {
+			if (err) { return res.serverError(err); }
+			if (!entity) { return res.serverError('Entity not found'); }
+
+			if (SecurityService.comparePassword(req.param('oldpassword'), entity)) {
+				entity.password = req.param('newpassword');
+				SecurityService.hashPassword(entity);
+				entity.save(function(err) {
+					if (err) { return res.serverError(err); }
+
+					var obj = entity.toJSON();
+
+					return res.ok(obj);
+				});
+			} else {
+				return res.serverError('Old password was wrong');
+			}
+		});
 	}
 };
