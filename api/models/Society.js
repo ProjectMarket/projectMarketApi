@@ -21,6 +21,10 @@ module.exports = {
       required: true,
       size: 14
     },
+    avatar: {
+      type: 'string',
+      required: false
+    },
     entity: {
       model: 'entity',
       required: false

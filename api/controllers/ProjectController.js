@@ -41,7 +41,7 @@ module.exports = {
 		});
 	},
 	getProject: function (req, res) {
-		Project.findOne({ id: req.param('projectId') }).exec(function(err, project) {
+		Project.findOne({ id: req.param('projectId') }).populate('category').populate('appliants').exec(function(err, project) {
 			if (err) { return res.serverError(err); }
 			if (!project) { return res.notFound('No project found for this id'); }
 
@@ -94,6 +94,52 @@ module.exports = {
 							}
 						});
 					}
+			});
+		});
+	},
+	applyToProject: function (req, res) {
+		Project.findOne({ id: req.param('projectId') }).exec(function(err, projet) {
+			if (err) { return res.serverError(err); }
+			if (!projet) { return res.serverError('Project could not be found'); }
+
+			Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity) {
+				if (err) { return res.serverError(err); }
+				if (!entity) { return res.serverError('Entity could not be found'); }
+
+				projet.appliants.add(entity.id);
+				projet.save(function(err) {
+					if (err) { return res.serverError(err); }
+
+					var message = req.param('message');
+
+					if (message != null && message != undefined && message != "") {
+						Message.create({
+							description: message,
+							receiver: projet.moa,
+							read: true
+						}).exec(function(err, mes) {
+							if (err) { return res.serverError(err); }
+							if (!mes) { return res.serverError('Message could not be written'); }
+						});
+					}
+
+					Notification.create({
+						description: entity.email + ' has applied to project : ' + projet.title,
+						receiver: projet.moa,
+						read: true
+					}).exec(function(err, not) {
+						if (err) { return res.serverError(err); }
+						if (!not) { return res.serverError('Notification could not be written'); }
+
+						Log.create({
+							description: 'Entity : ' + entity.email + ' has applied to project : ' + projet.title
+						}).exec(function(err, log){
+							if (err) { return res.serverError(err); }
+
+							return res.ok(projet);
+						});
+					});
+				});
 			});
 		});
 	}
