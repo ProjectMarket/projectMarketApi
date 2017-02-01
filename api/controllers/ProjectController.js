@@ -33,16 +33,59 @@ module.exports = {
 		});
 	},
 	getProject: function (req, res) {
-		Project.findOne({ id: req.param('projectId') }).populate('moa').exec(function(err, project) {
+		Project.findOne({ id: req.param('projectId') }).exec(function(err, project) {
 			if (err) { return res.serverError(err); }
 			if (!project) { return res.notFound('No project found for this id'); }
 
-			Log.create({
-				description: 'A project has been requested : ' + project.description
-			}).exec(function(err, log){
+			Entity.findOne({ id: project.moa }).exec(function(err, entity) {
 				if (err) { return res.serverError(err); }
+				if (!entity) { return res.notFound('No entity found for this id'); }
 
-				return res.ok(project);
+					var obj = entity.toJSON();
+
+					if (obj.type == 'user') {
+						User.findOne({
+							id: obj.elementId
+						}).exec(function(err, user) {
+							if (!err && user) {
+								obj.associatedElement = user.toJSON();
+								delete obj.elementId;
+
+								Log.create({
+									description: 'A project has been requested : ' + project.description
+								}).exec(function(err, log){
+									if (err) { return res.serverError(err); }
+
+									var elt = project.toJSON();
+
+									elt.moa = obj;
+
+									return res.ok(elt);
+								});
+							}
+						});
+					} else if (obj.type == 'society') {
+						Society.findOne({
+							id: obj.elementId
+						}).exec(function(err, society) {
+							if (!err && society) {
+								obj.associatedElement = society.toJSON();
+								delete obj.elementId;
+
+								Log.create({
+									description: 'A project has been requested : ' + project.description
+								}).exec(function(err, log){
+									if (err) { return res.serverError(err); }
+
+									var elt = project.toJSON();
+
+									elt.moa = obj;
+
+									return res.ok(elt);
+								});
+							}
+						});
+					}
 			});
 		});
 	}

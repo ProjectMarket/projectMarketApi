@@ -6,6 +6,12 @@
  */
 
 module.exports = {
-	
-};
+	getCategories: function(req, res) {
+		Category.find().exec(function(err, categories) {
+			if (err) { return res.serverError(err); }
+			if (!categories) { return res.serverError('No categories found'); }
 
+			return res.ok(categories);
+		});
+	}
+};
