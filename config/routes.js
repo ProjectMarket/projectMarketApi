@@ -36,6 +36,10 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  '/list': {
+    view: 'layout'
+  },
+
   'POST /signup': 'AuthController.signup',
   'POST /signin': 'AuthController.signin',
   'POST /society/create': 'SocietyController.createSociety',
