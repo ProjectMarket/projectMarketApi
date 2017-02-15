@@ -10,7 +10,7 @@ module.exports = {
   attributes: {
     moa: {
       model: 'entity',
-      required: true
+      required: false
     },
     moe: {
       model: 'entity',

@@ -14,7 +14,7 @@ module.exports = {
     },
     receiver: {
       model: 'entity',
-      required: true
+      required: false
     },
     read: {
       type: 'boolean',
