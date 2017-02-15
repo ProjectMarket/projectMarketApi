@@ -168,7 +168,7 @@ module.exports = {
 
 			async.each(object.moeForProjects, function(project, cb) {
 
-				if (project.started != null && over == null) {
+				if (project.started != null && project.over == null) {
 					isOnStartedProject = true;
 				}
 				cb();
@@ -178,7 +178,7 @@ module.exports = {
 
 				if (isOnStartedProject) { res.unauthorized("project started"); }
 
-				/*if (object.type == 'user') {
+				if (object.type == 'user') {
 					User.destroy({id: object.elementId}).exec(function(err) {
 						if (err) { return res.serverError(err); }
 
@@ -198,7 +198,7 @@ module.exports = {
 							return res.ok(entity);
 						});
 					});
-				}*/
+				}
 			});
 		});
 	}
