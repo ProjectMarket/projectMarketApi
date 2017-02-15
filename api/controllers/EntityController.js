@@ -158,7 +158,7 @@ module.exports = {
 		});
 	},
 	deleteEntity: function(req, res) {
-		Entity.findOne({ id: req.param('entityId') }).populate('moeForProjects').populate('projectsApplied').populate('messages').populate('notifications').populate('logs').populate('avis').exec(function(err, entity) {
+		Entity.findOne({ id: req.param('entityId') }).populate('projectsPosted').populate('moeForProjects').populate('projectsApplied').populate('messages').populate('notifications').populate('logs').populate('avis').exec(function(err, entity) {
 			if (err) { return res.serverError(err); }
 			if (!entity) { return res.serverError('Entity not found'); }
 
@@ -176,73 +176,97 @@ module.exports = {
 			}, function(err) {
 				if (err) { return res.serverError(err); }
 
-				if (isOnStartedProject) { res.unauthorized("project started"); }
+				if (isOnStartedProject) { res.unauthorized("moe project started"); }
 
-				var projects = [];
+				var isMoaForStartedProjects = false;
 
-				async.each(object.projectsApplied, function(project, cb) {
-					projects.push(project.id);
+				var projectsToDelete = [];
+
+				async.each(object.projectsPosted, function(project, cb) {
+					if (project.started != null && project.over == null) {
+						isMoaForStartedProjects = true;
+					} else if (project.started == null){
+						projectsToDelete.push(project.id);
+					}
 					cb();
 				}, function(err) {
 					if (err) { return res.serverError(err); }
 
-					async.each(projects, function(idP, cb) {
-						Project.findOne({id: idP}).populate('appliants').exec(function(err, project) {
-							if (err) { return res.serverError(err); }
+					if (isMoaForStartedProjects) { res.unauthorized("moa project started"); }
 
-							project.appliants.remove(entity.id);
-							project.save();
-							cb();
-						})
+					async.each(projectsToDelete, function(projectId, cb) {
+						Project.destroy({id: projectId});
+						cb();
 					}, function(err) {
 						if (err) { return res.serverError(err); }
 
-						async.each(entity.messages, function(message, cb) {
-							Message.destroy({id: message.id});
+						var projects = [];
+
+						async.each(object.projectsApplied, function(project, cb) {
+							projects.push(project.id);
 							cb();
 						}, function(err) {
 							if (err) { return res.serverError(err); }
 
-							async.each(entity.notifications, function(notification, cb) {
-								Notification.destroy({id: notification.id});
-								cb();
+							async.each(projects, function(idP, cb) {
+								Project.findOne({id: idP}).populate('appliants').exec(function(err, project) {
+									if (err) { return res.serverError(err); }
+
+									project.appliants.remove(entity.id);
+									project.save();
+									cb();
+								})
 							}, function(err) {
 								if (err) { return res.serverError(err); }
 
-								async.each(entity.logs, function(log, cb) {
-									Log.destroy({id: log.id});
+								async.each(entity.messages, function(message, cb) {
+									Message.destroy({id: message.id});
 									cb();
 								}, function(err) {
 									if (err) { return res.serverError(err); }
 
-									async.each(entity.avis, function(avis, cb) {
-										Commentary.destroy({id: avis.id});
+									async.each(entity.notifications, function(notification, cb) {
+										Notification.destroy({id: notification.id});
 										cb();
 									}, function(err) {
 										if (err) { return res.serverError(err); }
 
-										//TODO Handle images destroy
-										if (object.type == 'user') {
-											User.destroy({id: object.elementId}).exec(function(err) {
+										async.each(entity.logs, function(log, cb) {
+											Log.destroy({id: log.id});
+											cb();
+										}, function(err) {
+											if (err) { return res.serverError(err); }
+
+											async.each(entity.avis, function(avis, cb) {
+												Commentary.destroy({id: avis.id});
+												cb();
+											}, function(err) {
 												if (err) { return res.serverError(err); }
 
-												Entity.destroy({id: req.param('entityId')}).exec(function(err) {
-													if (err) { return res.serverError(err); }
+												//TODO Handle images destroy
+												if (object.type == 'user') {
+													User.destroy({id: object.elementId}).exec(function(err) {
+														if (err) { return res.serverError(err); }
 
-													return res.ok(entity);
-												});
+														Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+															if (err) { return res.serverError(err); }
+
+															return res.ok(entity);
+														});
+													});
+												} else if (object.type == 'society') {
+													Society.destroy({id: object.elementId}).exec(function(err) {
+														if (err) { return res.serverError(err); }
+
+														Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+															if (err) { return res.serverError(err); }
+
+															return res.ok(entity);
+														});
+													});
+												}
 											});
-										} else if (object.type == 'society') {
-											Society.destroy({id: object.elementId}).exec(function(err) {
-												if (err) { return res.serverError(err); }
-
-												Entity.destroy({id: req.param('entityId')}).exec(function(err) {
-													if (err) { return res.serverError(err); }
-
-													return res.ok(entity);
-												});
-											});
-										}
+										});
 									});
 								});
 							});
