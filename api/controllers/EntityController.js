@@ -58,80 +58,83 @@ module.exports = {
 				if (req.param('description') != null && req.param('description') != undefined && req.param('description') != "") {
 					entity.description = req.param('description');
 				}
-
-				entity.save(function(err) {
-					if (err) { return res.serverError(err); }
-				});
 			}
 
-			if (entity.type == 'user') {
-				User.findOne({
-					id: entity.elementId
-				}).exec(function(err, user) {
-					if ((req.param('firstname') != null && req.param('firstname') != undefined && req.param('firstname') != "") || (req.param('lastname') != null && req.param('lastname') != undefined && req.param('lastname') != "") || (req.param('avatar') != null && req.param('avatar') != undefined && req.param('avatar') != "") || (req.param('address') != null && req.param('address') != undefined && req.param('address') != "") || (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") || (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") || (req.param('country') != null && req.param('country') != undefined && req.param('country') != "")) {
-						if (req.param('firstname') != null && req.param('firstname') != undefined && req.param('firstname') != "") {
-							user.firstname = req.param('firstname');
-						}
-						if (req.param('lastname') != null && req.param('lastname') != undefined && req.param('lastname') != "") {
-							entity.lastname = req.param('lastname');
-						}
-						if (req.param('avatar') != null && req.param('avatar') != undefined && req.param('avatar') != "") {
-							entity.avatar = req.param('avatar');
-						}
-						if (req.param('address') != null && req.param('address') != undefined && req.param('address') != "") {
-							entity.address = req.param('address');
-						}
-						if (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") {
-							entity.postalcode = req.param('postalcode');
-						}
-						if (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") {
-							entity.city = req.param('city');
-						}
-						if (req.param('country') != null && req.param('country') != undefined && req.param('country') != "") {
-							entity.city = req.param('country');
+			entity.save(function(err) {
+				if (err) { return res.serverError(err); }
+
+				if (entity.type == 'user') {
+					User.findOne({
+						id: entity.elementId
+					}).exec(function(err, user) {
+						if ((req.param('firstname') != null && req.param('firstname') != undefined && req.param('firstname') != "") || (req.param('lastname') != null && req.param('lastname') != undefined && req.param('lastname') != "") || (req.param('avatar') != null && req.param('avatar') != undefined && req.param('avatar') != "") || (req.param('address') != null && req.param('address') != undefined && req.param('address') != "") || (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") || (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") || (req.param('country') != null && req.param('country') != undefined && req.param('country') != "")) {
+							if (req.param('firstname') != null && req.param('firstname') != undefined && req.param('firstname') != "") {
+								user.firstname = req.param('firstname');
+							}
+							if (req.param('lastname') != null && req.param('lastname') != undefined && req.param('lastname') != "") {
+								user.lastname = req.param('lastname');
+							}
+							if (req.param('avatar') != null && req.param('avatar') != undefined && req.param('avatar') != "") {
+								user.avatar = req.param('avatar');
+							}
+							if (req.param('address') != null && req.param('address') != undefined && req.param('address') != "") {
+								user.address = req.param('address');
+							}
+							if (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") {
+								user.postalcode = req.param('postalcode');
+							}
+							if (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") {
+								user.city = req.param('city');
+							}
+							if (req.param('country') != null && req.param('country') != undefined && req.param('country') != "") {
+								user.city = req.param('country');
+							}
 						}
 
 						user.save(function(err) {
 							if (err) { return res.serverError(err); }
+
+							var obj = entity.toJSON();
+							return res.ok(obj);
 						});
-					}
-				});
-			} else if (entity.type == 'society') {
-				Society.findOne({
-					id: entity.elementId
-				}).exec(function(err, society) {
-					if ((req.param('legalname') != null && req.param('legalname') != undefined && req.param('legalname') != "") || (req.param('siretnumber') != null && req.param('siretnumber') != undefined && req.param('siretnumber') != "") || (req.param('avatar') != null && req.param('avatar') != undefined && req.param('avatar') != "") || (req.param('address') != null && req.param('address') != undefined && req.param('address') != "") || (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") || (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") || (req.param('country') != null && req.param('country') != undefined && req.param('country') != "")) {
-						if (req.param('legalname') != null && req.param('legalname') != undefined) {
-							society.legalname = req.param('legalname');
-						}
-						if (req.param('siretnumber') != null && req.param('siretnumber') != undefined) {
-							society.siretnumber = req.param('siretnumber');
-						}
-						if (req.param('avatar') != null && req.param('avatar') != undefined) {
-							society.avatar = req.param('avatar');
-						}
-						if (req.param('address') != null && req.param('address') != undefined) {
-							society.address = req.param('address');
-						}
-						if (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") {
-							entity.postalcode = req.param('postalcode');
-						}
-						if (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") {
-							entity.city = req.param('city');
-						}
-						if (req.param('country') != null && req.param('country') != undefined && req.param('country') != "") {
-							entity.city = req.param('country');
+					});
+				} else if (entity.type == 'society') {
+					Society.findOne({
+						id: entity.elementId
+					}).exec(function(err, society) {
+						if ((req.param('legalname') != null && req.param('legalname') != undefined && req.param('legalname') != "") || (req.param('siretnumber') != null && req.param('siretnumber') != undefined && req.param('siretnumber') != "") || (req.param('avatar') != null && req.param('avatar') != undefined && req.param('avatar') != "") || (req.param('address') != null && req.param('address') != undefined && req.param('address') != "") || (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") || (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") || (req.param('country') != null && req.param('country') != undefined && req.param('country') != "")) {
+							if (req.param('legalname') != null && req.param('legalname') != undefined) {
+								society.legalname = req.param('legalname');
+							}
+							if (req.param('siretnumber') != null && req.param('siretnumber') != undefined) {
+								society.siretnumber = req.param('siretnumber');
+							}
+							if (req.param('avatar') != null && req.param('avatar') != undefined) {
+								society.avatar = req.param('avatar');
+							}
+							if (req.param('address') != null && req.param('address') != undefined) {
+								society.address = req.param('address');
+							}
+							if (req.param('postalcode') != null && req.param('postalcode') != undefined && req.param('postalcode') != "") {
+								society.postalcode = req.param('postalcode');
+							}
+							if (req.param('city') != null && req.param('city') != undefined && req.param('city') != "") {
+								society.city = req.param('city');
+							}
+							if (req.param('country') != null && req.param('country') != undefined && req.param('country') != "") {
+								society.city = req.param('country');
+							}
 						}
 
 						society.save(function(err) {
 							if (err) { return res.serverError(err); }
-						});
-					}
-				});
-			}
 
-			var obj = entity.toJSON();
-			return res.ok(obj);
+							var obj = entity.toJSON();
+							return res.ok(obj);
+						});
+					});
+				}
+			});
 		});
 	},
 	updatePassword: function(req, res) {

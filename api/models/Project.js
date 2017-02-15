@@ -38,6 +38,14 @@ module.exports = {
       type: 'string',
       required: false
     },
+    started: {
+      type: 'date',
+      required: false
+    },
+    over: {
+      type: 'date',
+      required: false
+    },
     category: {
       model: 'category',
       required: false
