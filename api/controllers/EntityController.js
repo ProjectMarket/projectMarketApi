@@ -10,7 +10,7 @@ module.exports = {
 		res.send(req.entity);
 	},
 	getEntity: function(req, res) {
-		Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity) {
+		Entity.findOne({ id: req.param('entityId') }).populate('messages').populate('notifications').exec(function(err, entity) {
 			if (err) { return res.serverError(err); }
 			if (!entity) { return res.notFound('No entity found for this id'); }
 
