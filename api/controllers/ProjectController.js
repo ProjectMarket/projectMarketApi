@@ -107,52 +107,56 @@ module.exports = {
 
 										elt.moa = obj;
 
-										Entity.findOne({ id: project.moe }).exec(function(err, entity) {
-										  if (err) { return res.serverError(err); }
-										  if (!entity) { return res.notFound('No entity found for this id'); }
+										if (project.moe != null) {
+											Entity.findOne({ id: project.moe }).exec(function(err, entity) {
+											  if (err) { return res.serverError(err); }
+											  if (!entity) { return res.notFound('No entity found for this id'); }
 
-										    var obj = entity.toJSON();
+											    var obj = entity.toJSON();
 
-										    if (obj.type == 'user') {
-										      User.findOne({
-										        id: obj.elementId
-										      }).exec(function(err, user) {
-										        if (!err && user) {
-										          obj.associatedElement = user.toJSON();
-										          delete obj.elementId;
+											    if (obj.type == 'user') {
+											      User.findOne({
+											        id: obj.elementId
+											      }).exec(function(err, user) {
+											        if (!err && user) {
+											          obj.associatedElement = user.toJSON();
+											          delete obj.elementId;
 
-										          Log.create({
-										            description: 'A project has been requested : ' + project.description
-										          }).exec(function(err, log){
-										            if (err) { return res.serverError(err); }
+											          Log.create({
+											            description: 'A project has been requested : ' + project.description
+											          }).exec(function(err, log){
+											            if (err) { return res.serverError(err); }
 
-										            elt.moe = obj;
+											            elt.moe = obj;
 
-										            return res.ok(elt);
-										          });
-										        }
-										      });
-										    } else if (obj.type == 'society') {
-										      Society.findOne({
-										        id: obj.elementId
-										      }).exec(function(err, society) {
-										        if (!err && society) {
-										          obj.associatedElement = society.toJSON();
-										          delete obj.elementId;
+											            return res.ok(elt);
+											          });
+											        }
+											      });
+											    } else if (obj.type == 'society') {
+											      Society.findOne({
+											        id: obj.elementId
+											      }).exec(function(err, society) {
+											        if (!err && society) {
+											          obj.associatedElement = society.toJSON();
+											          delete obj.elementId;
 
-										          Log.create({
-										            description: 'A project has been requested : ' + project.description
-										          }).exec(function(err, log){
-										            if (err) { return res.serverError(err); }
+											          Log.create({
+											            description: 'A project has been requested : ' + project.description
+											          }).exec(function(err, log){
+											            if (err) { return res.serverError(err); }
 
-										            elt.moe = obj;
+											            elt.moe = obj;
 
-										            return res.ok(elt);
-										          });
-										        }
-										      });
-										    }
-										});
+											            return res.ok(elt);
+											          });
+											        }
+											      });
+											    }
+											});
+										} else {
+											return res.ok(elt);
+										}
 									});
 								}
 							});
@@ -171,6 +175,8 @@ module.exports = {
 
 										elt.moa = obj;
 
+										if (project.moe != null) {
+
 										Entity.findOne({ id: project.moe }).exec(function(err, entity) {
 										  if (err) { return res.serverError(err); }
 										  if (!entity) { return res.notFound('No entity found for this id'); }
@@ -217,6 +223,9 @@ module.exports = {
 										      });
 										    }
 										});
+									} else {
+										return res.ok(elt);
+									}
 									});
 								}
 							});
