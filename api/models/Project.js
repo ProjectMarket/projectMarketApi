@@ -39,11 +39,11 @@ module.exports = {
       required: false
     },
     started: {
-      type: 'date',
+      type: 'datetime',
       required: false
     },
     over: {
-      type: 'date',
+      type: 'datetime',
       required: false
     },
     category: {

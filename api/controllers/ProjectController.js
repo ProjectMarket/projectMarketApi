@@ -313,6 +313,7 @@ module.exports = {
 						}
 
 						project.moe = req.param('entityId');
+						project.started = new Date().toLocaleString();
 						project.save();
 
 						return res.ok(project);
