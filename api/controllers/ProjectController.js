@@ -107,7 +107,52 @@ module.exports = {
 
 										elt.moa = obj;
 
-										return res.ok(elt);
+										Entity.findOne({ id: project.moe }).exec(function(err, entity) {
+										  if (err) { return res.serverError(err); }
+										  if (!entity) { return res.notFound('No entity found for this id'); }
+
+										    var obj = entity.toJSON();
+
+										    if (obj.type == 'user') {
+										      User.findOne({
+										        id: obj.elementId
+										      }).exec(function(err, user) {
+										        if (!err && user) {
+										          obj.associatedElement = user.toJSON();
+										          delete obj.elementId;
+
+										          Log.create({
+										            description: 'A project has been requested : ' + project.description
+										          }).exec(function(err, log){
+										            if (err) { return res.serverError(err); }
+
+										            elt.moe = obj;
+
+										            return res.ok(elt);
+										          });
+										        }
+										      });
+										    } else if (obj.type == 'society') {
+										      Society.findOne({
+										        id: obj.elementId
+										      }).exec(function(err, society) {
+										        if (!err && society) {
+										          obj.associatedElement = society.toJSON();
+										          delete obj.elementId;
+
+										          Log.create({
+										            description: 'A project has been requested : ' + project.description
+										          }).exec(function(err, log){
+										            if (err) { return res.serverError(err); }
+
+										            elt.moe = obj;
+
+										            return res.ok(elt);
+										          });
+										        }
+										      });
+										    }
+										});
 									});
 								}
 							});
@@ -126,7 +171,52 @@ module.exports = {
 
 										elt.moa = obj;
 
-										return res.ok(elt);
+										Entity.findOne({ id: project.moe }).exec(function(err, entity) {
+										  if (err) { return res.serverError(err); }
+										  if (!entity) { return res.notFound('No entity found for this id'); }
+
+										    var obj = entity.toJSON();
+
+										    if (obj.type == 'user') {
+										      User.findOne({
+										        id: obj.elementId
+										      }).exec(function(err, user) {
+										        if (!err && user) {
+										          obj.associatedElement = user.toJSON();
+										          delete obj.elementId;
+
+										          Log.create({
+										            description: 'A project has been requested : ' + project.description
+										          }).exec(function(err, log){
+										            if (err) { return res.serverError(err); }
+
+										            elt.moe = obj;
+
+										            return res.ok(elt);
+										          });
+										        }
+										      });
+										    } else if (obj.type == 'society') {
+										      Society.findOne({
+										        id: obj.elementId
+										      }).exec(function(err, society) {
+										        if (!err && society) {
+										          obj.associatedElement = society.toJSON();
+										          delete obj.elementId;
+
+										          Log.create({
+										            description: 'A project has been requested : ' + project.description
+										          }).exec(function(err, log){
+										            if (err) { return res.serverError(err); }
+
+										            elt.moe = obj;
+
+										            return res.ok(elt);
+										          });
+										        }
+										      });
+										    }
+										});
 									});
 								}
 							});
@@ -198,5 +288,37 @@ module.exports = {
 				return res.ok(project);
 			});
 		});
+	},
+	selectMoeForProject: function(req, res) {
+			Project.findOne({ id: req.param('projectId') }).populate('appliants').exec(function(err, project){
+				if (err) { return res.serverError(err); }
+				if (!project) { return res.serverError('Project could not be found'); }
+
+				Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity){
+					if (err) { return res.serverError(err); }
+					if (!entity) { return res.serverError('Entity could not be found'); }
+
+					var id = [];
+
+					async.each(project.appliants, function(appliant, cb) {
+
+						id.push(appliant.id);
+						cb();
+
+					}, function(err) {
+						if (err) { return res.serverError(err); }
+
+						for (var i = 0; i < id.length; i++) {
+							project.appliants.remove(id[i]);
+						}
+
+						project.moe = req.param('entityId');
+						project.save();
+
+						return res.ok(project);
+
+					})
+				});
+			});
 	}
 };

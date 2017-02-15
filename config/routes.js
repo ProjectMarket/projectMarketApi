@@ -43,6 +43,7 @@ module.exports.routes = {
   'POST /project/create': 'ProjectController.createProject',
   'POST /applyToProject/:projectId': 'ProjectController.applyToProject',
   'POST /unapplyFromProject/:projectId': 'ProjectController.removeAppliance',
+  'POST /selectMoeForProject/:projectId': 'ProjectController.selectMoeForProject',
   'PUT /updateProfile/:entityId': 'EntityController.updateProfile',
   'PUT /updatePassword/:entityId': 'EntityController.updatePassword',
   'GET /society/:societyId': 'SocietyController.getSociety',
@@ -52,7 +53,8 @@ module.exports.routes = {
   'GET /project/:projectId': 'ProjectController.getProject',
   'GET /entity/me': 'EntityController.me',
   'GET /entity/:entityId': 'EntityController.getEntity',
-  'GET /categories': 'CategoryController.getCategories'
+  'GET /categories': 'CategoryController.getCategories',
+  'DELETE /entity/:entityId': 'EntityController.deleteEntity'
 
   /***************************************************************************
   *                                                                          *

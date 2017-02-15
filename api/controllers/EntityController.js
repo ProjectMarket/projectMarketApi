@@ -149,5 +149,35 @@ module.exports = {
 				return res.serverError('Old password was wrong');
 			}
 		});
+	},
+	deleteEntity: function(req, res) {
+		Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity) {
+			if (err) { return res.serverError(err); }
+			if (!entity) { return res.serverError('Entity not found'); }
+
+			var object = entity.toJSON();
+
+			if (object.type == 'user') {
+				User.destroy({id: object.elementId}).exec(function(err) {
+					if (err) { return res.serverError(err); }
+
+					Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+						if (err) { return res.serverError(err); }
+
+						return res.ok(entity);
+					});
+				});
+			} else if (object.type == 'society') {
+				Society.destroy({id: object.elementId}).exec(function(err) {
+					if (err) { return res.serverError(err); }
+
+					Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+						if (err) { return res.serverError(err); }
+
+						return res.ok(entity);
+					});
+				});
+			}
+		});
 	}
 };
