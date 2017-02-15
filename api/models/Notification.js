@@ -13,7 +13,7 @@ module.exports = {
       required: true
     },
     receiver: {
-      model: 'user',
+      model: 'entity',
       required: true
     },
     read: {

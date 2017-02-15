@@ -255,7 +255,7 @@ module.exports = {
 						Message.create({
 							description: message,
 							receiver: projet.moa,
-							read: true
+							read: false
 						}).exec(function(err, mes) {
 							if (err) { return res.serverError(err); }
 							if (!mes) { return res.serverError('Message could not be written'); }
@@ -265,7 +265,7 @@ module.exports = {
 					Notification.create({
 						description: entity.email + ' has applied to project : ' + projet.title,
 						receiver: projet.moa,
-						read: true
+						read: false
 					}).exec(function(err, not) {
 						if (err) { return res.serverError(err); }
 						if (!not) { return res.serverError('Notification could not be written'); }

@@ -48,16 +48,6 @@ module.exports = {
     skills: {
       collection: 'skill',
       required: false
-    },
-    notifications: {
-      collection: 'notification',
-      via: 'receiver',
-      required: false
-    },
-    messages: {
-      collection: 'message',
-      via: 'receiver',
-      required: false
     }
   },
   beforeCreate: function(value, next) {

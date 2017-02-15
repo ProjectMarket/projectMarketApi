@@ -39,6 +39,21 @@ module.exports = {
       via: 'moe',
       required: false
     },
+    messages: {
+      collection: 'message',
+      via: 'receiver',
+      required: false
+    },
+    notifications: {
+      collection: 'notification',
+      via: 'receiver',
+      required: false
+    },
+    logs: {
+      collection: 'log',
+      via: 'entityLinked',
+      required: false
+    },
     avis: {
       collection: 'commentary',
       via: 'owner',
