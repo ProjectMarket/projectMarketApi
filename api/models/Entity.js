@@ -29,6 +29,11 @@ module.exports = {
       type: 'integer',
       required: false
     },
+    projectsPosted: {
+      collection: 'project',
+      via: 'moa',
+      required: false
+    },
     projectsApplied: {
       collection: 'project',
       via: 'appliants',
