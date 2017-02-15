@@ -50,9 +50,13 @@ module.exports = {
 			if (err) { return res.serverError(err); }
 			if (!entity) { return res.serverError('Entity not found'); }
 
-			if (req.param('email') != null && req.param('email') != undefined && req.param('email') != "") {
+			if ((req.param('email') != null && req.param('email') != undefined && req.param('email') != "") || ((req.param('description') != null && req.param('description') != undefined && req.param('description') != ""))) {
 				if (req.param('email') != null && req.param('email') != undefined && req.param('email') != "") {
 					entity.email = req.param('email');
+				}
+
+				if (req.param('description') != null && req.param('description') != undefined && req.param('description') != "") {
+					entity.description = req.param('description');
 				}
 
 				entity.save(function(err) {
