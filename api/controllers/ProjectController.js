@@ -49,7 +49,7 @@ module.exports = {
 
 			async.each(project.appliants, function(appliant, cb) {
 
-				Entity.findOne({id: appliant.elementId}).exec(function(err, appliantEntity) {
+				Entity.findOne({id: appliant.id}).exec(function(err, appliantEntity) {
 					if (err) { return cb(err); }
 
 					var object = appliantEntity.toJSON();
