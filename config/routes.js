@@ -36,16 +36,13 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  '/list': {
-    view: 'layout'
-  },
-
   'POST /signup': 'AuthController.signup',
   'POST /signin': 'AuthController.signin',
   'POST /society/create': 'SocietyController.createSociety',
   'POST /society/member/add': 'SocietyController.addMember',
   'POST /project/create': 'ProjectController.createProject',
   'POST /applyToProject/:projectId': 'ProjectController.applyToProject',
+  'POST /unapplyFromProject/:projectId': 'ProjectController.removeAppliance',
   'PUT /updateProfile/:entityId': 'EntityController.updateProfile',
   'PUT /updatePassword/:entityId': 'EntityController.updatePassword',
   'GET /society/:societyId': 'SocietyController.getSociety',

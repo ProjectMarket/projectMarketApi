@@ -182,5 +182,21 @@ module.exports = {
 				});
 			});
 		});
+	},
+	removeAppliance: function(req, res) {
+		Project.findOne({ id: req.param('projectId') }).populate('appliants').exec(function(err, project){
+			if (err) { return res.serverError(err); }
+			if (!project) { return res.serverError('Project could not be found'); }
+
+			Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity){
+				if (err) { return res.serverError(err); }
+				if (!entity) { return res.serverError('Entity could not be found'); }
+
+				project.appliants.remove(req.param('entityId'));
+				project.save();
+
+				return res.ok(project);
+			});
+		});
 	}
 };
