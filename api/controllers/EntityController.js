@@ -87,7 +87,7 @@ module.exports = {
 								user.city = req.param('city');
 							}
 							if (req.param('country') != null && req.param('country') != undefined && req.param('country') != "") {
-								user.city = req.param('country');
+								user.country = req.param('country');
 							}
 						}
 
@@ -122,7 +122,7 @@ module.exports = {
 								society.city = req.param('city');
 							}
 							if (req.param('country') != null && req.param('country') != undefined && req.param('country') != "") {
-								society.city = req.param('country');
+								society.country = req.param('country');
 							}
 						}
 
