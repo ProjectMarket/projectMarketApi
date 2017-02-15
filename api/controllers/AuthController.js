@@ -31,6 +31,7 @@ module.exports = {
 
   signup : function(req, res) {
     if (req.param('type') == 'user'){
+      sails.log("user");
       User.create({
         firstname: req.param('firstname'),
         lastname: req.param('lastname'),
@@ -71,6 +72,7 @@ module.exports = {
         }
       });
     } else if (req.param('type') == 'society') {
+      sails.log("society");
       Society.create({
         legalname: req.param('legalname'),
         address: req.param('address'),

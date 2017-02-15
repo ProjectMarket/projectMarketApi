@@ -195,8 +195,11 @@ module.exports = {
 					if (isMoaForStartedProjects) { res.unauthorized("moa project started"); }
 
 					async.each(projectsToDelete, function(projectId, cb) {
-						Project.destroy({id: projectId});
-						cb();
+						Project.destroy({id: projectId}).exec(function(err){
+							if (err) {return res.serverError(err); }
+
+							cb();
+						});
 					}, function(err) {
 						if (err) { return res.serverError(err); }
 
@@ -220,26 +223,38 @@ module.exports = {
 								if (err) { return res.serverError(err); }
 
 								async.each(entity.messages, function(message, cb) {
-									Message.destroy({id: message.id});
-									cb();
+									Message.destroy({id: message.id}).exec(function(err) {
+										if (err) { return res.serverError(err); }
+
+										cb();
+									});
 								}, function(err) {
 									if (err) { return res.serverError(err); }
 
 									async.each(entity.notifications, function(notification, cb) {
-										Notification.destroy({id: notification.id});
-										cb();
+										Notification.destroy({id: notification.id}).exec(function(err) {
+											if (err) { return res.serverError(err); }
+
+											cb();
+										});
 									}, function(err) {
 										if (err) { return res.serverError(err); }
 
 										async.each(entity.logs, function(log, cb) {
-											Log.destroy({id: log.id});
-											cb();
+											Log.destroy({id: log.id}).exec(function(err) {
+												if (err) { return res.serverError(err); }
+
+												cb();
+											});
 										}, function(err) {
 											if (err) { return res.serverError(err); }
 
 											async.each(entity.avis, function(avis, cb) {
-												Commentary.destroy({id: avis.id});
-												cb();
+												Commentary.destroy({id: avis.id}).exec(function(err) {
+													if (err) { return res.serverError(err); }
+
+													cb();
+												});
 											}, function(err) {
 												if (err) { return res.serverError(err); }
 
