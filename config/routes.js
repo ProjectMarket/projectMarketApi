@@ -42,6 +42,7 @@ module.exports.routes = {
   'POST /applyToProject/:projectId': 'ProjectController.applyToProject',
   'POST /unapplyFromProject/:projectId': 'ProjectController.removeAppliance',
   'POST /selectMoeForProject/:projectId': 'ProjectController.selectMoeForProject',
+  'POST /endProject/:projectId': 'ProjectController.endProject',
   'PUT /updateProfile/:entityId': 'EntityController.updateProfile',
   'PUT /updatePassword/:entityId': 'EntityController.updatePassword',
   'GET /project/:projectId': 'ProjectController.getProject',

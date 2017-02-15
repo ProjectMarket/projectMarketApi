@@ -330,5 +330,16 @@ module.exports = {
 					})
 				});
 			});
+	},
+	endProject: function(req, res) {
+		Project.findOne({ id: req.param('projectId') }).populate('appliants').exec(function(err, project){
+			if (err) { return res.serverError(err); }
+			if (!project) { return res.serverError('Project could not be found'); }
+
+			project.over = new Date().toLocaleString();
+			project.save();
+
+			return res.ok(project);
+		});
 	}
 };

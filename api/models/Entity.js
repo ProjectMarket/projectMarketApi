@@ -34,6 +34,11 @@ module.exports = {
       via: 'appliants',
       required: false
     },
+    moeForProjects: {
+      collection: 'project',
+      via: 'moe',
+      required: false
+    },
     avis: {
       collection: 'commentary',
       via: 'owner',

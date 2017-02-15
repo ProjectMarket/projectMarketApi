@@ -158,33 +158,48 @@ module.exports = {
 		});
 	},
 	deleteEntity: function(req, res) {
-		Entity.findOne({ id: req.param('entityId') }).exec(function(err, entity) {
+		Entity.findOne({ id: req.param('entityId') }).populate('moeForProjects').exec(function(err, entity) {
 			if (err) { return res.serverError(err); }
 			if (!entity) { return res.serverError('Entity not found'); }
 
 			var object = entity.toJSON();
 
-			if (object.type == 'user') {
-				User.destroy({id: object.elementId}).exec(function(err) {
-					if (err) { return res.serverError(err); }
+			var isOnStartedProject = false;
 
-					Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+			async.each(object.moeForProjects, function(project, cb) {
+
+				if (project.started != null && over == null) {
+					isOnStartedProject = true;
+				}
+				cb();
+
+			}, function(err) {
+				if (err) { return res.serverError(err); }
+
+				if (isOnStartedProject) { res.unauthorized("project started"); }
+
+				/*if (object.type == 'user') {
+					User.destroy({id: object.elementId}).exec(function(err) {
 						if (err) { return res.serverError(err); }
 
-						return res.ok(entity);
-					});
-				});
-			} else if (object.type == 'society') {
-				Society.destroy({id: object.elementId}).exec(function(err) {
-					if (err) { return res.serverError(err); }
+						Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+							if (err) { return res.serverError(err); }
 
-					Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+							return res.ok(entity);
+						});
+					});
+				} else if (object.type == 'society') {
+					Society.destroy({id: object.elementId}).exec(function(err) {
 						if (err) { return res.serverError(err); }
 
-						return res.ok(entity);
+						Entity.destroy({id: req.param('entityId')}).exec(function(err) {
+							if (err) { return res.serverError(err); }
+
+							return res.ok(entity);
+						});
 					});
-				});
-			}
+				}*/
+			});
 		});
 	}
 };
