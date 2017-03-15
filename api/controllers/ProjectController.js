@@ -342,5 +342,22 @@ module.exports = {
 
 			return res.ok(project);
 		});
+	},
+	addDocument: function(req, res) {
+		Project.findOne({ id: req.param('projectId') }).populate('appliants').exec(function(err, project){
+			if (err) { return res.serverError(err); }
+			if (!project) { return res.serverError('Project could not be found'); }
+
+			Document.create({
+				title: req.param('title'),
+				url: req.param('url'),
+				extension: req.param('extension'),
+				project: req.param('projectId')
+			}).exec(function(err, doc){
+				if (err) { return res.serverError(err); }
+
+				return res.ok(doc);
+			});
+		});
 	}
 };
