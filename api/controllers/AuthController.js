@@ -21,7 +21,7 @@
        token: SecurityService.createToken(user),
        user: user
      }
-   )
+   );
  }
 
 module.exports = {
@@ -74,7 +74,8 @@ module.exports = {
       Society.create({
         legalname: req.param('legalname'),
         address: req.param('address'),
-        siretnumber: req.param('siretnumber')
+        siretnumber: req.param('siretnumber'),
+        avatar: req.param('avatar')
       }).exec(function(err, society) {
         if (err) { return res.serverError(err); }
 

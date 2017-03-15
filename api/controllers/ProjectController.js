@@ -24,6 +24,7 @@ module.exports = {
 					title: req.param('title'),
 					budget: req.param('budget'),
 					description: req.param('description'),
+					image: req.param('image'),
 					category: cat
 				}).exec(function (err, newProject) {
 					if (err) { return res.serverError('connection 2 à la base de données impossible'); }
@@ -107,7 +108,7 @@ module.exports = {
 
 										elt.moa = obj;
 
-										if (project.moe != null) {
+										if (project.moe !== null) {
 											Entity.findOne({ id: project.moe }).exec(function(err, entity) {
 											  if (err) { return res.serverError(err); }
 											  if (!entity) { return res.notFound('No entity found for this id'); }
@@ -175,7 +176,7 @@ module.exports = {
 
 										elt.moa = obj;
 
-										if (project.moe != null) {
+										if (project.moe !== null) {
 
 										Entity.findOne({ id: project.moe }).exec(function(err, entity) {
 										  if (err) { return res.serverError(err); }
@@ -251,7 +252,7 @@ module.exports = {
 
 					var message = req.param('message');
 
-					if (message != null && message != undefined && message != "") {
+					if (message !== null && message !== undefined && message !== "") {
 						Message.create({
 							description: message,
 							receiver: projet.moa,
@@ -327,7 +328,7 @@ module.exports = {
 
 						return res.ok(project);
 
-					})
+					});
 				});
 			});
 	},
