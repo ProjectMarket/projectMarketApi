@@ -42,7 +42,7 @@ module.exports = {
 		});
 	},
 	getProject: function (req, res) {
-		Project.findOne({ id: req.param('projectId') }).populate('category').populate('appliants').exec(function(err, project) {
+		Project.findOne({ id: req.param('projectId') }).populate('category').populate('appliants').populate('documents').exec(function(err, project) {
 			if (err) { return res.serverError(err); }
 			if (!project) { return res.notFound('No project found for this id'); }
 
