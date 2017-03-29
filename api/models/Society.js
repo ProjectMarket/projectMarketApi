@@ -43,6 +43,8 @@ module.exports = {
     },
     skills: {
       collection: 'skill',
+      via: 'societies',
+      dominant: true,
       required: false
     }
   }

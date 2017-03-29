@@ -112,7 +112,7 @@ module.exports = {
           Society.findOne({
             id: entity.elementId
           }).exec(function(err, society) {
-            if ((req.param('legalname') !== null && req.param('legalname') !== undefined && req.param('legalname') !== "") || (req.param('siretnumber') !== null && req.param('siretnumber') !== undefined && req.param('siretnumber') !== "") || (req.param('avatar') !== null && req.param('avatar') !== undefined && req.param('avatar') !== "") || (req.param('address') !== null && req.param('address') !== undefined && req.param('address') !== "") || (req.param('postalcode') !== null && req.param('postalcode') !== undefined && req.param('postalcode') !== "") || (req.param('city') !== null && req.param('city') !== undefined && req.param('city') !== "") || (req.param('country') !== null && req.param('country') !== undefined && req.param('country') !== "")) {
+            if ((req.param('legalname') !== null && req.param('legalname') !== undefined && req.param('legalname') !== "") || (req.param('siretnumber') !== null && req.param('siretnumber') !== undefined && req.param('siretnumber') !== "") || (req.param('avatar') !== null && req.param('avatar') !== undefined && req.param('avatar') !== "") || (req.param('address') !== null && req.param('address') !== undefined && req.param('address') !== "") || (req.param('postalcode') !== null && req.param('postalcode') !== undefined && req.param('postalcode') !== "") || (req.param('city') !== null && req.param('city') !== undefined && req.param('city') !== "") || (req.param('country') !== null && req.param('country') !== undefined && req.param('country') !== "") || (req.param('skills') !== null && req.param('skills') !== undefined && req.param('skills') !== "")) {
               if (req.param('legalname') !== null && req.param('legalname') !== undefined) {
                 society.legalname = req.param('legalname');
               }
@@ -135,7 +135,11 @@ module.exports = {
                 society.country = req.param('country');
               }
               if (req.param('skills') !== null && req.param('skills') !== undefined && req.param('skills') !== "") {
-                society.skills = req.param('skills');
+                society.skills = [];
+                for (var i = 0; i < req.param('skills').length; i++)
+                {
+                  society.skills.add(req.param('skills')[i]);
+                }
               }
             }
 

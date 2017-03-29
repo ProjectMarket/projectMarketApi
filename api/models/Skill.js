@@ -15,6 +15,11 @@ module.exports = {
     category: {
       model: 'category',
       required: true
+    },
+    societies: {
+      collection: 'society',
+      via: 'skills',
+      required: false
     }
   }
 };
