@@ -8,7 +8,7 @@
 module.exports = {
   markAsRead: function(req, res) {
     var messagesIds = req.param('messageIds');
-    async.each(messageIds, function(messageId, cb) {
+    async.each(messagesIds, function(messageId, cb) {
       Message.findOne({
         id: messageId
       }).exec(function(err, message) {
@@ -27,7 +27,7 @@ module.exports = {
   },
   markAsNotRead: function(req, res) {
     var messagesIds = req.param('messageIds');
-    async.each(messageIds, function(messageId, cb) {
+    async.each(messagesIds, function(messageId, cb) {
       Message.findOne({
         id: messageId
       }).exec(function(err, message) {
