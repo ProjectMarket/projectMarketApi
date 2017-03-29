@@ -16,6 +16,10 @@ module.exports = {
       model: 'entity',
       required: false
     },
+    sender: {
+      model: 'entity',
+      required: false
+    },
     read: {
       type: 'boolean',
       required: true

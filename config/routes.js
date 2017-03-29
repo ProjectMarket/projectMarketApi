@@ -44,13 +44,17 @@ module.exports.routes = {
   'POST /selectMoeForProject/:projectId': 'ProjectController.selectMoeForProject',
   'POST /endProject/:projectId': 'ProjectController.endProject',
   'POST /project/:projectId/addDocument': 'ProjectController.addDocument',
+  'POST /markedAsRead': 'MessageController.markAsRead',
+  'POST /markedAsNotRead': 'MessageController.markAsNotRead',
+  'POST /sendMessage': 'MessageController.sendMessage',
   'PUT /updateProfile/:entityId': 'EntityController.updateProfile',
   'PUT /updatePassword/:entityId': 'EntityController.updatePassword',
   'GET /project/:projectId': 'ProjectController.getProject',
   'GET /entity/me': 'EntityController.me',
   'GET /entity/:entityId': 'EntityController.getEntity',
   'GET /categories': 'CategoryController.getCategories',
-  'DELETE /entity/:entityId': 'EntityController.deleteEntity'
+  'DELETE /entity/:entityId': 'EntityController.deleteEntity',
+  'DELETE /messages': 'MessageController.deleteMessages'
 
   /***************************************************************************
   *                                                                          *

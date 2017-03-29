@@ -27,7 +27,7 @@ module.exports = {
         issuer: sails.config.jwtSettings.issuer,
         audience: sails.config.jwtSettings.audience
       }
-    )
+    );
   }
 
 };

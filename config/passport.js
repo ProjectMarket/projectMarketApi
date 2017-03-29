@@ -131,12 +131,12 @@ module.exports.jwtSettings = {
   algo: ALGO,
   issuer: ISSUER,
   audience: AUDIENCE
-}
+};
 
 module.exports.orm = {
   _hookTimeout: 60000
-}
+};
 
 module.exports.pubsub = {
   _hookTimeout: 60000
-}
+};

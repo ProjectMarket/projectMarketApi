@@ -256,6 +256,7 @@ module.exports = {
 						Message.create({
 							description: message,
 							receiver: projet.moa,
+							sender: entity,
 							read: false
 						}).exec(function(err, mes) {
 							if (err) { return res.serverError(err); }
