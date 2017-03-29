@@ -24,6 +24,7 @@ module.exports = {
         return res.serverError(err);
       }
     });
+    
   },
   markAsNotRead: function(req, res) {
     var messagesIds = req.param('messageIds');
