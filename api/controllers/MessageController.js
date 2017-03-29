@@ -23,8 +23,9 @@ module.exports = {
       if (err) {
         return res.serverError(err);
       }
+      return res.ok();
     });
-    
+
   },
   markAsNotRead: function(req, res) {
     var messagesIds = req.param('messageIds');
@@ -43,6 +44,7 @@ module.exports = {
       if (err) {
         return res.serverError(err);
       }
+      return res.ok();
     });
   },
   deleteMessages: function(req, res) {
@@ -52,6 +54,7 @@ module.exports = {
         id: messageId
       }).exec(function(err) {
         if (err) {return res.serverError(err);}
+        return res.ok();
       });
     });
   },
