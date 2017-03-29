@@ -135,7 +135,12 @@ module.exports = {
                 society.country = req.param('country');
               }
               if (req.param('skills') !== null && req.param('skills') !== undefined && req.param('skills') !== "") {
-                society.skills = [];
+                var elts = society.skills;
+                for (var a = 0; a < elts.length; a++)
+                {
+                  society.skills.remove(elts[i].id);
+                  society.save();
+                }
                 for (var i = 0; i < req.param('skills').length; i++)
                 {
                   society.skills.add(req.param('skills')[i]);
