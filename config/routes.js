@@ -53,6 +53,8 @@ module.exports.routes = {
   'GET /entity/me': 'EntityController.me',
   'GET /entity/:entityId': 'EntityController.getEntity',
   'GET /categories': 'CategoryController.getCategories',
+  'GET /skills': 'SkillController.getSkills',
+  'GET /messages/:entityId': 'MessageController.getMessages',
   'DELETE /entity/:entityId': 'EntityController.deleteEntity',
   'DELETE /messages': 'MessageController.deleteMessages'
 

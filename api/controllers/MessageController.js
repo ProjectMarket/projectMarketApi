@@ -77,5 +77,20 @@ module.exports = {
         });
       });
     });
+  },
+  getMessages: function(req, res) {
+      Entity.findOne({
+        id: req.param('entityId')
+      }).exec(function(err, receiver) {
+        if (err) { return res.serverError(err); }
+        if (!receiver) {return res.serverError('receiver not found');}
+        Message.find({
+          receiver: req.param('entityId')
+        }).exec(function(err, messages) {
+          if (err) { return res.serverError(err); }
+          if (!messages) { return res.serverError('Messages not found'); }
+          return res.ok(messages);
+        });
+      });
   }
 };

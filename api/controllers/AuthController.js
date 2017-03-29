@@ -75,7 +75,8 @@ module.exports = {
         legalname: req.param('legalname'),
         address: req.param('address'),
         siretnumber: req.param('siretnumber'),
-        avatar: req.param('avatar')
+        avatar: req.param('avatar'),
+        skills: req.param('skills')
       }).exec(function(err, society) {
         if (err) { return res.serverError(err); }
 

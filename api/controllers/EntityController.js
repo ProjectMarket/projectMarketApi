@@ -142,6 +142,9 @@ module.exports = {
               if (req.param('country') !== null && req.param('country') !== undefined && req.param('country') !== "") {
                 society.country = req.param('country');
               }
+              if (req.param('skills') !== null && req.param('skills') !== undefined && req.param('skills') !== "") {
+                society.skills = req.param('skills');
+              }
             }
 
             society.save(function(err) {

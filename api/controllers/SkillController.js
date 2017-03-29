@@ -6,6 +6,12 @@
  */
 
 module.exports = {
-	
-};
+	getSkills: function(req, res) {
+		Skill.find().populate('category').exec(function(err, skills) {
+			if (err) { return res.serverError(err); }
+			if (!skills) { return res.serverError('No skills found'); }
 
+			return res.ok(skills);
+		});
+	}
+};
