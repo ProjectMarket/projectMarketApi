@@ -55,6 +55,27 @@ module.exports = {
     });
   },
   sendMessage: function(req, res) {
-    
+    Entity.findOne({
+      id: req.param('senderId')
+    }).exec(function(err, sender) {
+      if (err) { return res.serverError(err); }
+      if (!sender) {return res.serverError('sender not found');}
+      Entity.findOne({
+        id: req.param('receiverId')
+      }).exec(function(err, receiver) {
+        if (err) { return res.serverError(err); }
+        if (!sender) {return res.serverError('receiver not found');}
+        Message.create({
+          description: req.param('message'),
+          receiver: receiver,
+          sender: sender,
+          read: false
+        }).exec(function(err, newMessage) {
+          if (err) { return res.serverError(err); }
+          if (!newMessage) { return res.serverError('Message could not be created'); }
+          return res.created(newMessage);
+        });
+      });
+    });
   }
 };
