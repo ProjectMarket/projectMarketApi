@@ -49,13 +49,16 @@ module.exports = {
   },
   deleteMessages: function(req, res) {
     var messageIds = req.param('messageIds');
-    async.each(messageIds, function(messageId) {
+    async.each(messageIds, function(messageId, cb) {
       Message.destroy({
         id: messageId
       }).exec(function(err) {
         if (err) {return res.serverError(err);}
-        return res.ok();
+        cb();
       });
+    }, function(err) {
+      if (err) {return res.serverError(err);}
+      return res.ok();
     });
   },
   sendMessage: function(req, res) {
