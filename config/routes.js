@@ -47,6 +47,7 @@ module.exports.routes = {
   'POST /markedAsRead': 'MessageController.markAsRead',
   'POST /markedAsNotRead': 'MessageController.markAsNotRead',
   'POST /sendMessage': 'MessageController.sendMessage',
+  'POST /deleteMessages': 'MessageController.deleteMessages',
   'PUT /updateProfile/:entityId': 'EntityController.updateProfile',
   'PUT /updatePassword/:entityId': 'EntityController.updatePassword',
   'GET /project/:projectId': 'ProjectController.getProject',
@@ -55,8 +56,7 @@ module.exports.routes = {
   'GET /categories': 'CategoryController.getCategories',
   'GET /skills': 'SkillController.getSkills',
   'GET /messages/:entityId': 'MessageController.getMessages',
-  'DELETE /entity/:entityId': 'EntityController.deleteEntity',
-  'DELETE /messages': 'MessageController.deleteMessages'
+  'DELETE /entity/:entityId': 'EntityController.deleteEntity'
 
   /***************************************************************************
   *                                                                          *
