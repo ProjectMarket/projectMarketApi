@@ -74,7 +74,7 @@ module.exports = {
           }
         });
       } else if (type == 'society') {
-        Society.findOne({id: elementId}).exec(function(err, society) {
+        Society.findOne({id: elementId}).populate('skills').exec(function(err, society) {
           if (!err && society) {
             cb(society);
           } else {

@@ -40,6 +40,10 @@ module.exports = {
     entity: {
       model: 'entity',
       required: false
+    },
+    skills: {
+      collection: 'skill',
+      required: false
     }
   }
 };

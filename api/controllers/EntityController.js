@@ -35,7 +35,7 @@ module.exports = {
       } else if (obj.type == 'society') {
         Society.findOne({
           id: obj.elementId
-        }).exec(function(err, society) {
+        }).populate('skills').exec(function(err, society) {
           if (!err && society) {
             obj.associatedElement = society.toJSON();
             delete obj.elementId;
